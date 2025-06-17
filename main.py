@@ -1,3 +1,6 @@
+from test_time import time_decorator
+
+
 def my_range(*args):
     mode = len(args)
     if mode == 1:
@@ -23,20 +26,17 @@ def my_range(*args):
         current += step
 
 
-print(f"just 1 arg")
-for i in my_range(10):
-    print(i)
+@time_decorator
+def test_my_range(start, stop, step):
+    for i in my_range(start, stop + 1, step):
+        if i == stop:
+            print(f"strat -> {start}, stop -> {stop}, step -> {step}")
 
-print("2 args")
-for i in my_range(1, 10):
-    print(i)
+@time_decorator
+def test_default_range(start, stop, step):
+    for i in range(start, stop + 1, step):
+        if i == stop:
+            print(f"strat -> {start}, stop -> {stop}, step -> {step}")
 
-for i in my_range(10, 1):
-    print(i)
-
-print("3 args")
-for i in my_range(1, 10, 2):
-    print(i)
-
-for i in my_range(100, 10, -10):
-    print(i)
+test_my_range(1, 10_000_000, 1)
+test_default_range(1, 10_000_000, 1)
